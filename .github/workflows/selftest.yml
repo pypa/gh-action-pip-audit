@@ -12,5 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: trailofbits/gh-action-pip-audit
+      - uses: .
+        with:
+          inputs: requirements.txt
 
