@@ -12,5 +12,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: trailofbits/gh-action-pip-audit@${{ github.sha }}
+      - uses: trailofbits/gh-action-pip-audit
 
