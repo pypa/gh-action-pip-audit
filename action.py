@@ -8,7 +8,15 @@
 import os
 import sys
 import subprocess
+from contextlib import contextmanager
 from pathlib import Path
+
+
+@contextmanager
+def _group(msg):
+    print(f"::group::{msg}")
+    yield
+    print("::endground::")
 
 
 def _pip_audit(*args):
@@ -53,9 +61,8 @@ if len(inputs) != 0:
 
 pip_audit_args = [str(arg) for arg in pip_audit_args]
 
-print(f"running: {_pip_audit(*pip_audit_args)}")
-
-try:
-    subprocess.run(_pip_audit(*pip_audit_args), check=True)
-except subprocess.CalledProcessError as cpe:
-    sys.exit(cpe.returncode)
+with _group(' '.join(pip_audit_args)):
+    try:
+        subprocess.run(_pip_audit(*pip_audit_args), check=True)
+    except subprocess.CalledProcessError as cpe:
+        sys.exit(cpe.returncode)
