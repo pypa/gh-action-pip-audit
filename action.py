@@ -24,7 +24,9 @@ def _fatal_help(msg):
 inputs = [Path(p).resolve() for p in sys.argv[1].split()]
 
 # The arguments we pass into `pip-audit` get built up in this list.
-pip_audit_args = ["--progress-spinner=off"]
+# We disable the spinner (it's useless in the CI) and use a custom cache
+# directory (until we create a release that contains pip-audit#290).
+pip_audit_args = ["--progress-spinner=off", "--cache-dir=/tmp/pip-cache"]
 
 if os.getenv("GHA_PIP_AUDIT_REQUIRE_HASHES", "false") != "false":
     pip_audit_args.append("--require-hashes")
