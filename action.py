@@ -16,7 +16,7 @@ from pathlib import Path
 def _group(msg):
     print(f"::group::{msg}")
     yield
-    print("::endground::")
+    print("::endgroup::")
 
 
 def _pip_audit(*args):
@@ -61,7 +61,7 @@ if len(inputs) != 0:
 
 pip_audit_args = [str(arg) for arg in pip_audit_args]
 
-with _group(' '.join(pip_audit_args)):
+with _group(f"pip-audit {' '.join(pip_audit_args)}"):
     try:
         subprocess.run(_pip_audit(*pip_audit_args), check=True)
     except subprocess.CalledProcessError as cpe:
