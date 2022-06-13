@@ -43,11 +43,10 @@ if len(inputs) != 0:
         if input_.is_dir():
             if len(inputs) != 1:
                 _fatal_help("pip-audit only supports one project directory at a time")
-            else:
-                pip_audit_args.append(input_)
+            pip_audit_args.append(input_)
         else:
             if not input_.is_file():
                 _fatal_help(f"input {input_} does not look like a file")
-                pip_audit_args.extend(["--requirement", input_])
+            pip_audit_args.extend(["--requirement", input_])
 
 print(f"would have run: {pip_audit_args=}")
