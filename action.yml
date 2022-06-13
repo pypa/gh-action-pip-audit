@@ -1,0 +1,24 @@
+name: "gh-action-pip-audit"
+author: "William Woodruff <william@trailofbits.com>"
+description: "Use pip-audit to scan Python dependencies for known vulnerabilities"
+inputs:
+  require_hashes:
+    description: "enforce hashes (requirements-style inputs only) (default false)"
+    required: false
+    default: "false"
+  vulnerability_service:
+    description: "the vulnerability service to use (PyPI or OSV, defaults to PyPI)"
+    required: false
+    default: "PyPI"
+  inputs:
+    description: "the inputs to audit, space separated (defaults to current path)"
+    required: false
+    default: ""
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    GHA_PIP_AUDIT_REQUIRE_HASHES: "${{ inputs.require_hashes }}"
+    GHA_PIP_AUDIT_VULNERABILITY_SERVICE: "${{ inputs.vulnerability_service }}"
+  args:
+    - "${{ inputs.inputs }}"
