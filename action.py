@@ -61,7 +61,7 @@ if len(inputs) != 0:
 
 pip_audit_args = [str(arg) for arg in pip_audit_args]
 
-with _group(f"pip-audit {' '.join(pip_audit_args)}"):
+with _group(' '.join(_pip_audit(*pip_audit_args))):
     try:
         subprocess.run(_pip_audit(*pip_audit_args), check=True)
     except subprocess.CalledProcessError as cpe:
