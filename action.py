@@ -24,7 +24,7 @@ def _fatal_help(msg):
 inputs = [Path(p).resolve() for p in sys.argv[1].split()]
 
 # The arguments we pass into `pip-audit` get built up in this list.
-pip_audit_args = []
+pip_audit_args = ["--progress-spinner=off"]
 
 if os.getenv("GHA_PIP_AUDIT_REQUIRE_HASHES", "false") != "false":
     pip_audit_args.append("--require-hashes")
@@ -49,4 +49,7 @@ if len(inputs) != 0:
                 _fatal_help(f"input {input_} does not look like a file")
             pip_audit_args.extend(["--requirement", input_])
 
-print(f"would have run: {pip_audit_args=}")
+try:
+    subprocess.run(_pip_audit(*pip_audit_args), check=True)
+except subprocess.CalledProcessError as cpe:
+    sys.exit(cpe.returncode)
