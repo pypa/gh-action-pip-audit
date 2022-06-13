@@ -42,7 +42,7 @@ if os.getenv("GHA_PIP_AUDIT_REQUIRE_HASHES", "false") != "false":
 if (
     service := os.getenv("GHA_PIP_AUDIT_VULNERABILITY_SERVICE", "pypi").lower()
 ) != "pypi":
-    pip_audit_args.extend(["--service", service])
+    pip_audit_args.extend(["--vulnerability-service", service])
 
 # If inputs is empty, we let `pip-audit` run in "pip source" mode by not
 # adding any explicit input argument(s).
