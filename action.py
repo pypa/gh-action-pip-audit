@@ -85,7 +85,12 @@ for input_ in inputs:
             _fatal_help(f"input {input_} does not look like a file")
         pip_audit_args.extend(["--requirement", input_])
 
-status = subprocess.run(_pip_audit(*pip_audit_args), capture_output=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+status = subprocess.run(
+    _pip_audit(*pip_audit_args),
+    text=True,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.STDOUT,
+)
 if status.returncode == 0:
     _log("🎉 pip-audit exited successfully")
 else:
