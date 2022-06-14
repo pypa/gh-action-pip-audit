@@ -80,3 +80,5 @@ else:
         print("```", file=summary)
         print(io.read(), file=summary)
         print("```", file=summary)
+
+sys.exit(status.returncode)
