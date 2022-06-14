@@ -60,10 +60,13 @@ if os.getenv("GHA_PIP_AUDIT_NO_DEPS", "false") != "false":
 if os.getenv("GHA_PIP_AUDIT_REQUIRE_HASHES", "false") != "false":
     pip_audit_args.append("--require-hashes")
 
-if (
-    service := os.getenv("GHA_PIP_AUDIT_VULNERABILITY_SERVICE", "pypi").lower()
-) != "pypi":
-    pip_audit_args.extend(["--vulnerability-service", service])
+
+pip_audit_args.extend(
+    [
+        "--vulnerability-service",
+        os.getenv("GHA_PIP_AUDIT_VULNERABILITY_SERVICE", "pypi").lower(),
+    ]
+)
 
 # If inputs is empty, we let `pip-audit` run in "pip source" mode by not
 # adding any explicit input argument(s).
@@ -89,7 +92,7 @@ status = subprocess.run(
     text=True,
     stdout=subprocess.PIPE,
     stderr=subprocess.STDOUT,
-    env=os.environ | {"PIP_NO_CACHE_DIR": "1"},
+    env={**os.environ, "PIP_NO_CACHE_DIR": "1"},
 )
 if status.returncode == 0:
     _log("🎉 pip-audit exited successfully")
