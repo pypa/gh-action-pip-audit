@@ -104,14 +104,23 @@ else:
         _summary("```")
 
 
-_summary("<details>")
-_summary("<summary>")
-_summary("Raw `pip-audit` output")
-_summary("</summary>")
-_summary("```")
+_summary(
+    """
+    <details>
+    <summary>
+        Raw `pip-audit` output
+    </summary>
+
+    ```
+    """
+)
 _log(status.stdout)
-_summary("```")
-_summary("</details>")
+_summary(
+    """
+    ```
+    </details>
+    """
+)
 
 # Normally, we exit with the same code as `pip-audit`, but the user can
 # explicitly configure the CI to always pass.
