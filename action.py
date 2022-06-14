@@ -11,6 +11,18 @@ import sys
 from pathlib import Path
 
 
+_OUTPUTS = [sys.stderr]
+_SUMMARY = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
+
+if os.getenv("GHA_PIP_AUDIT_SUMMARY", "true") != "false":
+    _OUTPUTS.append(_SUMMARY)
+
+
+def _log(msg):
+    for output in _OUTPUTS:
+        print(msg, file=output)
+
+
 def _pip_audit(*args):
     return ["python", "-m", "pip_audit", *args]
 
@@ -76,9 +88,9 @@ else:
     with open("/tmp/pip-audit-output.txt", "r") as io:
         # NOTE: `pip-audit`'s table format isn't quite Markdown-style.
         # See: https://github.com/trailofbits/pip-audit/issues/296
-        print("```", file=summary)
-        print(io.read(), file=summary)
-        print("```", file=summary)
+        _log("```")
+        _log(io.read())
+        _log("```")
 
 # Normally, we exit with the same code as `pip-audit`, but the user can
 # explicitly configure the CI to always pass.
