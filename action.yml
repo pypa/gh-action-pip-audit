@@ -31,7 +31,7 @@ runs:
   steps:
     - run: python -m pip install pip-audit
       shell: bash
-    - run: ${{ github.action_path }}/action.py
+    - run: ${{ github.action_path }}/action.py "${{ inputs.inputs }}"
       shell: bash
     # - uses: actions/setup-python
 
