@@ -27,13 +27,21 @@ inputs:
     required: false
     default: false
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  env:
-    GHA_PIP_AUDIT_SUMMARY: "${{ inputs.summary }}"
-    GHA_PIP_AUDIT_NO_DEPS: "${{ inputs.no-deps }}"
-    GHA_PIP_AUDIT_REQUIRE_HASHES: "${{ inputs.require-hashes }}"
-    GHA_PIP_AUDIT_VULNERABILITY_SERVICE: "${{ inputs.vulnerability-service }}"
-    GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_ALLOW_FAILURE: "${{ inputs.internal-be-careful-allow-failure }}"
-  args:
-    - "${{ inputs.inputs }}"
+  using: "composite"
+  steps:
+    - run: python -m pip install pip-audit
+      shell: bash
+    - run: ${{ github.action_path }}/action.py
+      shell: bash
+    # - uses: actions/setup-python
+
+  # using: 'docker'
+  # image: 'Dockerfile'
+  # env:
+  #   GHA_PIP_AUDIT_SUMMARY: "${{ inputs.summary }}"
+  #   GHA_PIP_AUDIT_NO_DEPS: "${{ inputs.no-deps }}"
+  #   GHA_PIP_AUDIT_REQUIRE_HASHES: "${{ inputs.require-hashes }}"
+  #   GHA_PIP_AUDIT_VULNERABILITY_SERVICE: "${{ inputs.vulnerability-service }}"
+  #   GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_ALLOW_FAILURE: "${{ inputs.internal-be-careful-allow-failure }}"
+  # args:
+  #   - "${{ inputs.inputs }}"
