@@ -28,6 +28,9 @@ summary = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
 pip_audit_args = [
     # The spinner is useless in the CI.
     "--progress-spinner=off",
+    # `pip cache dir` doesn't work in this container for some reason, and I
+    # haven't debugged it yet.
+    "--cache-dir=/tmp/pip-audit-cache",
     # Include full descriptions in the output.
     "--desc",
     # Write the output to this logfile, which we'll turn into the step summary (if configured).
