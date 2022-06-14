@@ -1,6 +1,9 @@
 gh-action-pip-audit
 ===================
 
+[![CI](https://github.com/trailofbits/gh-action-pip-audit/actions/workflows/ci.yml/badge.svg)](https://github.com/trailofbits/gh-action-pip-audit/actions/workflows/ci.yml)
+[![Self-test](https://github.com/trailofbits/gh-action-pip-audit/actions/workflows/selftest.yml/badge.svg)](https://github.com/trailofbits/gh-action-pip-audit/actions/workflows/selftest.yml)
+
 A GitHub Action that uses [`pip-audit`](https://github.com/trailofbits/pip-audit)
 to scan Python dependencies for known vulnerabilities.
 
