@@ -13,9 +13,15 @@ from pathlib import Path
 
 _OUTPUTS = [sys.stderr]
 _SUMMARY = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
+_RENDER_SUMMARY = os.getenv("GHA_PIP_AUDIT_SUMMARY", "true") == "true"
 
-if os.getenv("GHA_PIP_AUDIT_SUMMARY", "true") != "false":
+if _RENDER_SUMMARY:
     _OUTPUTS.append(_SUMMARY)
+
+
+def _summary(msg):
+    if _RENDER_SUMMARY:
+        print(msg, file=_SUMMARY)
 
 
 def _log(msg):
@@ -79,18 +85,28 @@ for input_ in inputs:
             _fatal_help(f"input {input_} does not look like a file")
         pip_audit_args.extend(["--requirement", input_])
 
-status = subprocess.run(_pip_audit(*pip_audit_args))
+status = subprocess.run(_pip_audit(*pip_audit_args), capture_output=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 if status.returncode == 0:
-    print("🎉 pip-audit exited successfully", file=summary)
+    _log("🎉 pip-audit exited successfully")
 else:
-    print("❌ pip-audit found one or more problems", file=summary)
+    _log("❌ pip-audit found one or more problems")
 
     with open("/tmp/pip-audit-output.txt", "r") as io:
         # NOTE: `pip-audit`'s table format isn't quite Markdown-style.
         # See: https://github.com/trailofbits/pip-audit/issues/296
-        _log("```")
+        _summary("```")
         _log(io.read())
-        _log("```")
+        _summary("```")
+
+
+_summary("<details>")
+_summary("<summary>")
+_summary("Raw `pip-audit` output")
+_summary("</summary>")
+_summary("```")
+_log(status.stdout)
+_summary("```")
+_summary("</details>")
 
 # Normally, we exit with the same code as `pip-audit`, but the user can
 # explicitly configure the CI to always pass.
