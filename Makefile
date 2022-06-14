@@ -12,6 +12,6 @@ dev: env/pyvenv.cfg
 
 .PHONY: lint
 lint: env/pyvenv.cfg action.py
+	./env/bin/python -m black action.py
 	./env/bin/python -m isort action.py
 	./env/bin/python -m flake8 --max-line-length 100 action.py
-	./env/bin/python -m black action.py
