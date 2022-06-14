@@ -74,4 +74,13 @@ else:
     print("❌ pip-audit found one or more problems", file=summary)
 
     with open("/tmp/pip-audit-output.txt", "r") as io:
-        print(io.read(), file=summary)
+        # NOTE: `pip-audit`'s table format isn't quite Markdown-style.
+        # See: https://github.com/trailofbits/pip-audit/issues/296
+        print(
+            f"""
+            ```
+            {io.read()}
+            ```
+            """,
+            file=summary,
+        )
