@@ -77,13 +77,6 @@ else:
     with open("/tmp/pip-audit-output.txt", "r") as io:
         # NOTE: `pip-audit`'s table format isn't quite Markdown-style.
         # See: https://github.com/trailofbits/pip-audit/issues/296
-        print(
-            dedent(
-                f"""
-                ```
-                {io.read()}
-                ```
-                """
-            ),
-            file=summary,
-        )
+        print("```", file=summary)
+        print(io.read(), file=summary)
+        print("```", file=summary)
