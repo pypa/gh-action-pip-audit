@@ -106,19 +106,19 @@ else:
 
 _summary(
     """
-    <details>
-    <summary>
-        Raw `pip-audit` output
-    </summary>
+<details>
+<summary>
+    Raw `pip-audit` output
+</summary>
 
-    ```
+```
     """
 )
 _log(status.stdout)
 _summary(
     """
-    ```
-    </details>
+```
+</details>
     """
 )
 
