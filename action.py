@@ -10,7 +10,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 _OUTPUTS = [sys.stderr]
 _SUMMARY = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
 _RENDER_SUMMARY = os.getenv("GHA_PIP_AUDIT_SUMMARY", "true") == "true"
