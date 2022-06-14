@@ -9,6 +9,7 @@ import os
 import sys
 import subprocess
 from pathlib import Path
+from textwrap import dedent
 
 
 def _pip_audit(*args):
@@ -77,10 +78,12 @@ else:
         # NOTE: `pip-audit`'s table format isn't quite Markdown-style.
         # See: https://github.com/trailofbits/pip-audit/issues/296
         print(
-            f"""
-            ```
-            {io.read()}
-            ```
-            """,
+            dedent(
+                f"""
+                ```
+                {io.read()}
+                ```
+                """
+            ),
             file=summary,
         )
