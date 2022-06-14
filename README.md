@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: install
         run: pip install .
-      - uses: trailofbits/gh-action-pip-audit@v0.0.1
+      - uses: trailofbits/gh-action-pip-audit@v0.0.2
 ```
 
 By default, `pip-audit` will run in "pip source" mode, meaning that it'll
@@ -41,7 +41,7 @@ The `inputs` setting controls what sources `pip-audit` runs on.
 To audit one or more requirements-style inputs:
 
 ```yaml
-- uses: trailofbits/gh-action-pip-audit@v0.0.1
+- uses: trailofbits/gh-action-pip-audit@v0.0.2
   with:
     inputs: requirements.txt dev-requirements.txt
 ```
@@ -49,7 +49,7 @@ To audit one or more requirements-style inputs:
 To audit a project that uses `pyproject.toml` for its dependencies:
 
 ```yaml
-- uses: trailofbits/gh-action-pip-audit@v0.0.1
+- uses: trailofbits/gh-action-pip-audit@v0.0.2
   with:
     # NOTE: this can be `.`, for the current directory
     inputs: path/to/project/
@@ -67,7 +67,7 @@ It's directly equivalent to `pip-audit --vulnerability-service=...`.
 To audit with OSV instead of PyPI:
 
 ```yaml
-- uses: trailofbits/gh-action-pip-audit@v0.0.1
+- uses: trailofbits/gh-action-pip-audit@v0.0.2
   with:
     vulnerability-service: osv
 ```
@@ -82,7 +82,7 @@ It's directly equivalent to `pip-audit --require-hashes ...`.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-pip-audit@v0.0.1
+- uses: trailofbits/gh-action-pip-audit@v0.0.2
   with:
     # NOTE: only works with requirements-style inputs
     inputs: requirements.txt
@@ -99,7 +99,7 @@ It's directly equivalent to `pip-audit --no-deps ...`.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-pip-audit@v0.0.1
+- uses: trailofbits/gh-action-pip-audit@v0.0.2
   with:
     # NOTE: only works with requirements-style inputs
     inputs: requirements.txt
@@ -117,7 +117,7 @@ is rendered at the end of the action.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-pip-audit@v0.0.1
+- uses: trailofbits/gh-action-pip-audit@v0.0.2
   with:
     summary: false
   ```
@@ -145,7 +145,7 @@ Example:
   Example:
 
   ```yaml
-  - uses: trailofbits/gh-action-pip-audit@v0.0.1
+  - uses: trailofbits/gh-action-pip-audit@v0.0.2
     with:
       internal-be-careful-allow-failure: true
   ```
