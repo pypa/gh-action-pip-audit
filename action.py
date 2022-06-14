@@ -6,10 +6,9 @@
 # is a whitespace-separated list of inputs
 
 import os
-import sys
 import subprocess
+import sys
 from pathlib import Path
-from textwrap import dedent
 
 
 def _pip_audit(*args):
