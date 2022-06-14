@@ -11,7 +11,7 @@ to scan Python dependencies for known vulnerabilities.
 
 Simply add `trailofbits/gh-action-pip-audit` to one of your workflows:
 
-```
+```yaml
 jobs:
   selftest:
     runs-on: ubuntu-latest
