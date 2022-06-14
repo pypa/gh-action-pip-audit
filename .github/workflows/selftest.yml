@@ -14,5 +14,8 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./
         with:
-          inputs: requirements.txt
+          inputs: ./test/vulnerable.txt
+          # NOTE: We intentionally allow failure here, since the self-test
+          # explicitly uses a vulnerable requirements file.
+          internal-be-careful-allow-failure: true
 
