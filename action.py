@@ -51,9 +51,8 @@ if len(inputs) != 0:
                 _fatal_help(f"input {input_} does not look like a file")
             pip_audit_args.extend(["--requirement", input_])
 
-pip_audit_args = [str(arg) for arg in pip_audit_args]
-
-try:
-    subprocess.run(_pip_audit(*pip_audit_args), check=True)
-except subprocess.CalledProcessError as cpe:
-    sys.exit(cpe.returncode)
+status = subprocess.run(_pip_audit(*pip_audit_args))
+if status.returncode == 0:
+    print("🎉 pip-audit exited successfully")
+else:
+    print("❌ pip-audit found one or more problems")
