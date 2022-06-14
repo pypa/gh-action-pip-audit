@@ -80,4 +80,10 @@ else:
         print(io.read(), file=summary)
         print("```", file=summary)
 
-sys.exit(status.returncode)
+# Normally, we exit with the same code as `pip-audit`, but the user can
+# explicitly configure the CI to always pass.
+# This is primarily useful for our own self-test workflows.
+if os.getenv("GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_ALLOW_FAILURE", "false") != "false":
+    sys.exit(0)
+else:
+    sys.exit(status.returncode)
