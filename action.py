@@ -89,7 +89,7 @@ status = subprocess.run(
     text=True,
     stdout=subprocess.PIPE,
     stderr=subprocess.STDOUT,
-    env={"PIP_NO_CACHE_DIR": "1"},
+    env=os.environ | {"PIP_NO_CACHE_DIR": "1"},
 )
 if status.returncode == 0:
     _log("🎉 pip-audit exited successfully")
