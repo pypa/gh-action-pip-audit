@@ -14,9 +14,11 @@ from pathlib import Path
 
 @contextmanager
 def _group(msg):
-    print(f"::group::{msg}")
-    yield
-    print("::endgroup::")
+    try:
+        print(f"::group::{msg}")
+        yield
+    finally:
+        print("::endgroup::")
 
 
 def _pip_audit(*args):
