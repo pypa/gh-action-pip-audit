@@ -34,7 +34,7 @@ def _log(msg):
 
 
 def _pip_audit(*args):
-    return ["python", "-m", "pip_audit", *args]
+    return ["pip-audit", *args]
 
 
 def _fatal_help(msg):
