@@ -131,6 +131,9 @@ else:
     with open("/tmp/pip-audit-output.txt", "r") as io:
         output = io.read()
 
+        # This is really nasty: our output contains multiple lines,
+        # so we can't naively stuff it into an output (since this is all done
+        # in-channel as a special command on stdout).
         print(f"::set-output name=output::{b64encode(output.encode()).decode()}")
 
         # NOTE: `pip-audit`'s table format isn't quite Markdown-style.
