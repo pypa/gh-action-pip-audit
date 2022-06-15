@@ -68,9 +68,9 @@ pip_audit_args.extend(
     ]
 )
 
-virtual_environment = os.getenv("GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT", None)
+virtual_environment = os.getenv("GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT", "")
 path = os.getenv("PATH")
-if virtual_environment is not None:
+if virtual_environment != "":
     if inputs:
         _fatal_help("virtual environment may not be specified with explicit inputs")
 

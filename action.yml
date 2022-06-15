@@ -25,7 +25,7 @@ inputs:
   virtual-environment:
     description: "the virtual environment to audit within (default none)"
     required: false
-    default: null
+    default: ""
   internal-be-careful-allow-failure:
     description: "don't fail the job if the audit fails (default false)"
     required: false
