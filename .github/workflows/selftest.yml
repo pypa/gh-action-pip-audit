@@ -24,7 +24,7 @@ jobs:
         env:
           PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.internal-be-careful-output }}"
         run: |
-          grep -q 'pyyaml 5.1' <<< "${PIP_AUDIT_OUTPUT}"
+          grep -q 'pyyaml 5.1' <<< $(base64 -d <<< "${PIP_AUDIT_OUTPUT}")
 
   selftest-environment:
     runs-on: ubuntu-latest
