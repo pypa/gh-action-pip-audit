@@ -19,6 +19,9 @@ jobs:
           # NOTE: We intentionally allow failure here, since the self-test
           # explicitly uses a vulnerable requirements file.
           internal-be-careful-allow-failure: true
+      - name: assert expected output
+        run:
+          grep -q 'pyyaml 5.1' "${GITHUB_STEP_SUMMARY}"
 
   selftest-environment:
     runs-on: ubuntu-latest
@@ -32,6 +35,9 @@ jobs:
           # NOTE: We intentionally allow failure here, since the self-test
           # explicitly uses a vulnerable requirements file.
           internal-be-careful-allow-failure: true
+      - name: assert expected output
+        run:
+          grep -q 'pyyaml 5.1' "${GITHUB_STEP_SUMMARY}"
 
   selftest-virtualenv:
     runs-on: ubuntu-latest
@@ -48,6 +54,9 @@ jobs:
           # explicitly uses a vulnerable requirements file.
           internal-be-careful-allow-failure: true
           internal-be-careful-debug: true
+      - name: assert expected output
+        run:
+          grep -q 'pyyaml 5.1' "${GITHUB_STEP_SUMMARY}"
 
   # selftest-pyproject:
   #   runs-on: ubuntu-latest
