@@ -8,6 +8,7 @@
 import os
 import subprocess
 import sys
+from base64 import b64encode
 from pathlib import Path
 
 _OUTPUTS = [sys.stderr]
@@ -130,7 +131,7 @@ else:
     with open("/tmp/pip-audit-output.txt", "r") as io:
         output = io.read()
 
-        print(f"::set-output name=output::{output}")
+        print(f"::set-output name=output::{b64encode(output.encode())}")
 
         # NOTE: `pip-audit`'s table format isn't quite Markdown-style.
         # See: https://github.com/trailofbits/pip-audit/issues/296

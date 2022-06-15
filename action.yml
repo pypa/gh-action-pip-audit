@@ -36,7 +36,7 @@ inputs:
     default: false
 outputs:
   internal-be-careful-output:
-    description: "the raw column-formatted output from pip-audit"
+    description: "the column-formatted output from pip-audit, wrapped as base64"
     value: "${{ steps.pip-audit.outputs.output }}"
 runs:
   using: "composite"
