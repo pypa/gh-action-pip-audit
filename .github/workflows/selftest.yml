@@ -32,5 +32,21 @@ jobs:
           # NOTE: We intentionally allow failure here, since the self-test
           # explicitly uses a vulnerable requirements file.
           internal-be-careful-allow-failure: true
+
+  selftest-virtualenv:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: make a virtual environment vulnerable
+        run: |
+          python -m venv env
+          ./env/bin/python -m pip install --no-deps --requirement ./test/vulnerable.txt
+      - uses: ./
+        with:
+          virtual-environment: env/
+          # NOTE: We intentionally allow failure here, since the self-test
+          # explicitly uses a vulnerable requirements file.
+          internal-be-careful-allow-failure: true
+
   # selftest-pyproject:
   #   runs-on: ubuntu-latest
