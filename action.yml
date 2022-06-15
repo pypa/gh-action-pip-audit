@@ -22,6 +22,10 @@ inputs:
     description: "the inputs to audit, space separated (defaults to current path)"
     required: false
     default: ""
+  virtual-environment:
+    description: "the virtual environment to audit within (default none)"
+    required: false
+    default: null
   internal-be-careful-allow-failure:
     description: "don't fail the job if the audit fails (default false)"
     required: false
@@ -38,5 +42,6 @@ runs:
         GHA_PIP_AUDIT_NO_DEPS: "${{ inputs.no-deps }}"
         GHA_PIP_AUDIT_REQUIRE_HASHES: "${{ inputs.require-hashes }}"
         GHA_PIP_AUDIT_VULNERABILITY_SERVICE: "${{ inputs.vulnerability-service }}"
+        GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT: "${{ inputs.virtual-environment }}"
         GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_ALLOW_FAILURE: "${{ inputs.internal-be-careful-allow-failure }}"
       shell: bash

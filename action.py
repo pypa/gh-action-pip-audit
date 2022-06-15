@@ -68,6 +68,15 @@ pip_audit_args.extend(
     ]
 )
 
+virtual_environment = os.getenv("GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT", None)
+path = os.getenv("PATH")
+if virtual_environment is not None:
+    if inputs:
+        _fatal_help("virtual environment may not be specified with explicit inputs")
+
+    virtual_environment = Path(virtual_environment).resolve()
+    path = f"{virtual_environment}/bin:{path}"
+
 # If inputs is empty, we let `pip-audit` run in "pip source" mode by not
 # adding any explicit input argument(s).
 # Otherwise, we handle either exactly one project path (a directory)
@@ -92,7 +101,7 @@ status = subprocess.run(
     text=True,
     stdout=subprocess.PIPE,
     stderr=subprocess.STDOUT,
-    env={**os.environ, "PIP_NO_CACHE_DIR": "1"},
+    env={**os.environ, "PIP_NO_CACHE_DIR": "1", "PATH": path},
 )
 if status.returncode == 0:
     _log("🎉 pip-audit exited successfully")
