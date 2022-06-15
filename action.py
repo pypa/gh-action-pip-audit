@@ -128,10 +128,14 @@ else:
     _log("❌ pip-audit found one or more problems")
 
     with open("/tmp/pip-audit-output.txt", "r") as io:
+        output = io.read()
+
+        print(f"::set-output name=output::{output}")
+
         # NOTE: `pip-audit`'s table format isn't quite Markdown-style.
         # See: https://github.com/trailofbits/pip-audit/issues/296
         _summary("```")
-        _log(io.read())
+        _log(output)
         _summary("```")
 
 
