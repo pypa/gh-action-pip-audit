@@ -13,6 +13,7 @@ from pathlib import Path
 _OUTPUTS = [sys.stderr]
 _SUMMARY = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
 _RENDER_SUMMARY = os.getenv("GHA_PIP_AUDIT_SUMMARY", "true") == "true"
+_DEBUG = os.getenv("GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_DEBUG", "false") != "false"
 
 if _RENDER_SUMMARY:
     _OUTPUTS.append(_SUMMARY)
@@ -21,6 +22,10 @@ if _RENDER_SUMMARY:
 def _summary(msg):
     if _RENDER_SUMMARY:
         print(msg, file=_SUMMARY)
+
+
+def _debug(msg):
+    print(f"\033[93mDEBUG: {msg}\033[0m", file=sys.stderr)
 
 
 def _log(msg):
@@ -54,6 +59,9 @@ pip_audit_args = [
     "--output=/tmp/pip-audit-output.txt",
 ]
 
+if _DEBUG:
+    pip_audit_args.append("--verbose")
+
 if os.getenv("GHA_PIP_AUDIT_NO_DEPS", "false") != "false":
     pip_audit_args.append("--no-deps")
 
@@ -75,7 +83,9 @@ if virtual_environment != "":
         _fatal_help("virtual environment may not be specified with explicit inputs")
 
     virtual_environment = Path(virtual_environment).resolve()
+    _debug(f"virtual environment requested: {virtual_environment}")
     path = f"{virtual_environment}/bin:{path}"
+    _debug(f"updated PATH: {path}")
 
 # If inputs is empty, we let `pip-audit` run in "pip source" mode by not
 # adding any explicit input argument(s).
@@ -95,6 +105,8 @@ for input_ in inputs:
         if not input_.is_file():
             _fatal_help(f"input {input_} does not look like a file")
         pip_audit_args.extend(["--requirement", input_])
+
+_debug(f"running: pip-audit {[str(a) for a in pip_audit_args]}")
 
 status = subprocess.run(
     _pip_audit(*pip_audit_args),

@@ -30,6 +30,10 @@ inputs:
     description: "don't fail the job if the audit fails (default false)"
     required: false
     default: false
+  internal-be-careful-debug:
+    description: "run with debug logs (default false)"
+    required: false
+    default: false
 runs:
   using: "composite"
   steps:
@@ -44,4 +48,5 @@ runs:
         GHA_PIP_AUDIT_VULNERABILITY_SERVICE: "${{ inputs.vulnerability-service }}"
         GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT: "${{ inputs.virtual-environment }}"
         GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_ALLOW_FAILURE: "${{ inputs.internal-be-careful-allow-failure }}"
+        GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_DEBUG: "${{ inputs.internal-be-careful-debug }}"
       shell: bash
