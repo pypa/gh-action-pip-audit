@@ -83,6 +83,10 @@ if virtual_environment != "":
         _fatal_help("virtual environment may not be specified with explicit inputs")
 
     virtual_environment = Path(virtual_environment).resolve()
+
+    if not virtual_environment.is_dir():
+        _fatal_help("virtual environment does not exist")
+
     _debug(f"virtual environment requested: {virtual_environment}")
     path = f"{virtual_environment}/bin:{path}"
     _debug(f"updated PATH: {path}")
