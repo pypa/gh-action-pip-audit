@@ -131,7 +131,7 @@ else:
     with open("/tmp/pip-audit-output.txt", "r") as io:
         output = io.read()
 
-        print(f"::set-output name=output::{b64encode(output.encode())}")
+        print(f"::set-output name=output::{b64encode(output.encode()).decode()}")
 
         # NOTE: `pip-audit`'s table format isn't quite Markdown-style.
         # See: https://github.com/trailofbits/pip-audit/issues/296
