@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: install
         run: python -m pip install .
-      - uses: trailofbits/gh-action-pip-audit@v0.0.2
+      - uses: trailofbits/gh-action-pip-audit@v0.0.3
 ```
 
 Or, with a virtual environment:
@@ -44,7 +44,7 @@ jobs:
           python -m venv env/
           source env/bin/activate
           python -m pip install .
-      - uses: trailofbits/gh-action-pip-audit@v0.0.2
+      - uses: trailofbits/gh-action-pip-audit@v0.0.3
         with:
           virtual-environment: env/
 ```
@@ -68,7 +68,7 @@ The `inputs` setting controls what sources `pip-audit` runs on.
 To audit one or more requirements-style inputs:
 
 ```yaml
-- uses: trailofbits/gh-action-pip-audit@v0.0.2
+- uses: trailofbits/gh-action-pip-audit@v0.0.3
   with:
     inputs: requirements.txt dev-requirements.txt
 ```
@@ -76,7 +76,7 @@ To audit one or more requirements-style inputs:
 To audit a project that uses `pyproject.toml` for its dependencies:
 
 ```yaml
-- uses: trailofbits/gh-action-pip-audit@v0.0.2
+- uses: trailofbits/gh-action-pip-audit@v0.0.3
   with:
     # NOTE: this can be `.`, for the current directory
     inputs: path/to/project/
@@ -104,7 +104,7 @@ Example: use the virtual environment specified at `env/`, relative to the
 current directory:
 
 ```yaml
-- uses: trailofbits/gh-action-pip-audit@v0.0.2
+- uses: trailofbits/gh-action-pip-audit@v0.0.3
   with:
     virtual-environment: env/
     # Note the absence of `input:`, since we're auditing the environment.
@@ -124,7 +124,7 @@ installed directly into the current environment are included.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-pip-audit@v0.0.2
+- uses: trailofbits/gh-action-pip-audit@v0.0.3
   with:
     local: true
 ```
@@ -141,7 +141,7 @@ It's directly equivalent to `pip-audit --vulnerability-service=...`.
 To audit with OSV instead of PyPI:
 
 ```yaml
-- uses: trailofbits/gh-action-pip-audit@v0.0.2
+- uses: trailofbits/gh-action-pip-audit@v0.0.3
   with:
     vulnerability-service: osv
 ```
@@ -156,7 +156,7 @@ It's directly equivalent to `pip-audit --require-hashes ...`.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-pip-audit@v0.0.2
+- uses: trailofbits/gh-action-pip-audit@v0.0.3
   with:
     # NOTE: only works with requirements-style inputs
     inputs: requirements.txt
@@ -173,7 +173,7 @@ It's directly equivalent to `pip-audit --no-deps ...`.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-pip-audit@v0.0.2
+- uses: trailofbits/gh-action-pip-audit@v0.0.3
   with:
     # NOTE: only works with requirements-style inputs
     inputs: requirements.txt
@@ -191,7 +191,7 @@ is rendered at the end of the action.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-pip-audit@v0.0.2
+- uses: trailofbits/gh-action-pip-audit@v0.0.3
   with:
     summary: false
   ```
@@ -219,7 +219,7 @@ Example:
   Example:
 
   ```yaml
-  - uses: trailofbits/gh-action-pip-audit@v0.0.2
+  - uses: trailofbits/gh-action-pip-audit@v0.0.3
     with:
       internal-be-careful-allow-failure: true
   ```
@@ -238,7 +238,7 @@ Example:
   Example:
 
   ```yaml
-  - uses: trailofbits/gh-action-pip-audit@v0.0.2
+  - uses: trailofbits/gh-action-pip-audit@v0.0.3
     with:
       internal-be-careful-debug: true
   ```
@@ -255,7 +255,7 @@ If you're auditing a requirements file, consider setting `no-deps: true` or
 `require-hashes: true`:
 
 ```yaml
-- uses: trailofbits/gh-action-pip-audit@v0.0.2
+- uses: trailofbits/gh-action-pip-audit@v0.0.3
   with:
     inputs: requirements.txt
     require-hashes: true
@@ -264,7 +264,7 @@ If you're auditing a requirements file, consider setting `no-deps: true` or
 or:
 
 ```yaml
-- uses: trailofbits/gh-action-pip-audit@v0.0.2
+- uses: trailofbits/gh-action-pip-audit@v0.0.3
   with:
     inputs: requirements.txt
     no-deps: true
@@ -285,7 +285,7 @@ by the host system itself, or other Python projects that happen to be installed.
 To minimize external dependencies, you can opt into a virtual environment:
 
 ```yaml
-- uses: trailofbits/gh-action-pip-audit@v0.0.2
+- uses: trailofbits/gh-action-pip-audit@v0.0.3
   with:
     # must be populated earlier in the CI
     virtual-environment: env/
@@ -295,7 +295,7 @@ and, more aggressively, specify that only dependencies marked as "local"
 in the virtual environment should be included:
 
 ```yaml
-- uses: trailofbits/gh-action-pip-audit@v0.0.2
+- uses: trailofbits/gh-action-pip-audit@v0.0.3
   with:
     # must be populated earlier in the CI
     virtual-environment: env/
