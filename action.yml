@@ -22,18 +22,66 @@ inputs:
     description: "the inputs to audit, space separated (defaults to current path)"
     required: false
     default: ""
+  virtual-environment:
+    description: "the virtual environment to audit within (default none)"
+    required: false
+    default: ""
+  local:
+    description: "for environmental audits, consider only packages marked local (default false)"
+    required: false
+    default: false
   internal-be-careful-allow-failure:
     description: "don't fail the job if the audit fails (default false)"
     required: false
     default: false
+  internal-be-careful-debug:
+    description: "run with debug logs (default false)"
+    required: false
+    default: false
+outputs:
+  internal-be-careful-output:
+    description: "the column-formatted output from pip-audit, wrapped as base64"
+    value: "${{ steps.pip-audit.outputs.output }}"
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  env:
-    GHA_PIP_AUDIT_SUMMARY: "${{ inputs.summary }}"
-    GHA_PIP_AUDIT_NO_DEPS: "${{ inputs.no-deps }}"
-    GHA_PIP_AUDIT_REQUIRE_HASHES: "${{ inputs.require-hashes }}"
-    GHA_PIP_AUDIT_VULNERABILITY_SERVICE: "${{ inputs.vulnerability-service }}"
-    GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_ALLOW_FAILURE: "${{ inputs.internal-be-careful-allow-failure }}"
-  args:
-    - "${{ inputs.inputs }}"
+  using: "composite"
+  steps:
+    - run: |
+        # If the user has explicitly specified a virtual environment, then we install
+        # `pip-audit` into it rather than into whatever environment the default
+        # `python -m pip install ...` invocation might happen to choose.
+        if [[ -n "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}" ]] ; then
+          if [[ -d "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}" ]]; then
+            source "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}/bin/activate"
+          else
+            >&2 echo "Fatal: virtual environment is not a directory"
+          fi
+        fi
+
+        python -m pip install --requirement requirements.txt
+      env:
+        GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT: "${{ inputs.virtual-environment }}"
+      shell: bash
+
+    - id: pip-audit
+      run: |
+        # Similarly to the above: if the user has explicitly specified a virtual
+        # environment, then we have to load it here to get to `pip-audit`.
+        if [[ -n "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}" ]] ; then
+          if [[ -d "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}" ]]; then
+            source "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}/bin/activate"
+          else
+            >&2 echo "Fatal: virtual environment is not a directory"
+          fi
+        fi
+
+        ${{ github.action_path }}/action.py "${{ inputs.inputs }}"
+      env:
+        GHA_PIP_AUDIT_SUMMARY: "${{ inputs.summary }}"
+        GHA_PIP_AUDIT_NO_DEPS: "${{ inputs.no-deps }}"
+        GHA_PIP_AUDIT_REQUIRE_HASHES: "${{ inputs.require-hashes }}"
+        GHA_PIP_AUDIT_VULNERABILITY_SERVICE: "${{ inputs.vulnerability-service }}"
+        GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT: "${{ inputs.virtual-environment }}"
+        GHA_PIP_AUDIT_LOCAL: "${{ inputs.local }}"
+        GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_ALLOW_FAILURE: "${{ inputs.internal-be-careful-allow-failure }}"
+        GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_DEBUG: "${{ inputs.internal-be-careful-debug }}"
+      shell: bash

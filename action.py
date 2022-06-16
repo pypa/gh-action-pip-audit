@@ -8,11 +8,13 @@
 import os
 import subprocess
 import sys
+from base64 import b64encode
 from pathlib import Path
 
 _OUTPUTS = [sys.stderr]
 _SUMMARY = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
 _RENDER_SUMMARY = os.getenv("GHA_PIP_AUDIT_SUMMARY", "true") == "true"
+_DEBUG = os.getenv("GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_DEBUG", "false") != "false"
 
 if _RENDER_SUMMARY:
     _OUTPUTS.append(_SUMMARY)
@@ -21,6 +23,11 @@ if _RENDER_SUMMARY:
 def _summary(msg):
     if _RENDER_SUMMARY:
         print(msg, file=_SUMMARY)
+
+
+def _debug(msg):
+    if _DEBUG:
+        print(f"\033[93mDEBUG: {msg}\033[0m", file=sys.stderr)
 
 
 def _log(msg):
@@ -54,18 +61,27 @@ pip_audit_args = [
     "--output=/tmp/pip-audit-output.txt",
 ]
 
+if _DEBUG:
+    pip_audit_args.append("--verbose")
+
 if os.getenv("GHA_PIP_AUDIT_NO_DEPS", "false") != "false":
     pip_audit_args.append("--no-deps")
 
 if os.getenv("GHA_PIP_AUDIT_REQUIRE_HASHES", "false") != "false":
     pip_audit_args.append("--require-hashes")
 
-if (
-    service := os.getenv("GHA_PIP_AUDIT_VULNERABILITY_SERVICE", "pypi").lower()
-) != "pypi":
-    pip_audit_args.extend(["--vulnerability-service", service])
+if os.getenv("GHA_PIP_AUDIT_LOCAL", "false") != "false":
+    pip_audit_args.append("--local")
 
-# If inputs is empty, we let `pip-audit` run in "pip source" mode by not
+
+pip_audit_args.extend(
+    [
+        "--vulnerability-service",
+        os.getenv("GHA_PIP_AUDIT_VULNERABILITY_SERVICE", "pypi").lower(),
+    ]
+)
+
+# If inputs is empty, we let `pip-audit` run in "`pip list` source" mode by not
 # adding any explicit input argument(s).
 # Otherwise, we handle either exactly one project path (a directory)
 # or one or more requirements-style inputs (all files).
@@ -84,23 +100,35 @@ for input_ in inputs:
             _fatal_help(f"input {input_} does not look like a file")
         pip_audit_args.extend(["--requirement", input_])
 
+_debug(f"running: pip-audit {[str(a) for a in pip_audit_args]}")
+
 status = subprocess.run(
     _pip_audit(*pip_audit_args),
     text=True,
     stdout=subprocess.PIPE,
     stderr=subprocess.STDOUT,
-    env=os.environ | {"PIP_NO_CACHE_DIR": "1"},
+    env={**os.environ, "PIP_NO_CACHE_DIR": "1"},
 )
+
+_debug(status.stdout)
+
 if status.returncode == 0:
     _log("🎉 pip-audit exited successfully")
 else:
     _log("❌ pip-audit found one or more problems")
 
     with open("/tmp/pip-audit-output.txt", "r") as io:
+        output = io.read()
+
+        # This is really nasty: our output contains multiple lines,
+        # so we can't naively stuff it into an output (since this is all done
+        # in-channel as a special command on stdout).
+        print(f"::set-output name=output::{b64encode(output.encode()).decode()}")
+
         # NOTE: `pip-audit`'s table format isn't quite Markdown-style.
         # See: https://github.com/trailofbits/pip-audit/issues/296
         _summary("```")
-        _log(io.read())
+        _log(output)
         _summary("```")
 
 
