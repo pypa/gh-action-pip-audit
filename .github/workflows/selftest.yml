@@ -71,5 +71,21 @@ jobs:
         run: |
           grep -E 'pyyaml\s+5.1' <<< $(base64 -d <<< "${PIP_AUDIT_OUTPUT}")
 
-  # selftest-pyproject:
-  #   runs-on: ubuntu-latest
+  selftest-pyproject:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+        id: pip-audit
+        with:
+          # should attempt to discover test/pyproject/pyproject.toml
+          input: test/pyproject/
+          no-deps: true
+          # NOTE: We intentionally allow failure here, since the self-test
+          # explicitly uses a vulnerable requirements file.
+          internal-be-careful-allow-failure: true
+      - name: assert expected output
+        env:
+          PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.internal-be-careful-output }}"
+        run: |
+          grep -E 'pyyaml\s+5.1' <<< $(base64 -d <<< "${PIP_AUDIT_OUTPUT}")
