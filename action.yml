@@ -26,6 +26,10 @@ inputs:
     description: "the virtual environment to audit within (default none)"
     required: false
     default: ""
+  local:
+    description: "for environmental audits, consider only packages marked local (default false)"
+    required: false
+    default: false
   internal-be-careful-allow-failure:
     description: "don't fail the job if the audit fails (default false)"
     required: false
@@ -77,6 +81,7 @@ runs:
         GHA_PIP_AUDIT_REQUIRE_HASHES: "${{ inputs.require-hashes }}"
         GHA_PIP_AUDIT_VULNERABILITY_SERVICE: "${{ inputs.vulnerability-service }}"
         GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT: "${{ inputs.virtual-environment }}"
+        GHA_PIP_AUDIT_LOCAL: "${{ inputs.local }}"
         GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_ALLOW_FAILURE: "${{ inputs.internal-be-careful-allow-failure }}"
         GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_DEBUG: "${{ inputs.internal-be-careful-debug }}"
       shell: bash

@@ -69,6 +69,9 @@ if os.getenv("GHA_PIP_AUDIT_NO_DEPS", "false") != "false":
 if os.getenv("GHA_PIP_AUDIT_REQUIRE_HASHES", "false") != "false":
     pip_audit_args.append("--require-hashes")
 
+if os.getenv("GHA_PIP_AUDIT_LOCAL", "false") != "false":
+    pip_audit_args.append("--local")
+
 
 pip_audit_args.extend(
     [
@@ -77,22 +80,7 @@ pip_audit_args.extend(
     ]
 )
 
-# virtual_environment = os.getenv("GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT", "")
-# path = os.getenv("PATH")
-# if virtual_environment != "":
-#     if inputs:
-#         _fatal_help("virtual environment may not be specified with explicit inputs")
-
-#     virtual_environment = Path(virtual_environment).resolve()
-
-#     if not virtual_environment.is_dir():
-#         _fatal_help("virtual environment does not exist")
-
-#     _debug(f"virtual environment requested: {virtual_environment}")
-#     path = f"{virtual_environment}/bin:{path}"
-#     _debug(f"updated PATH: {path}")
-
-# If inputs is empty, we let `pip-audit` run in "pip source" mode by not
+# If inputs is empty, we let `pip-audit` run in "`pip list` source" mode by not
 # adding any explicit input argument(s).
 # Otherwise, we handle either exactly one project path (a directory)
 # or one or more requirements-style inputs (all files).
