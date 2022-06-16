@@ -52,7 +52,7 @@ jobs:
       - name: make a virtual environment vulnerable
         run: |
           python -m venv env
-          ./env/bin/python -m pip install --upgrade pip
+          ./env/bin/python -m pip install --upgrade pip wheel
           ./env/bin/python -m pip install --no-deps --requirement ./test/vulnerable.txt
       - uses: ./
         id: pip-audit
