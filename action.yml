@@ -42,6 +42,9 @@ runs:
   using: "composite"
   steps:
     - run: |
+        # If the user has explicitly specified a virtual environment, then we install
+        # `pip-audit` into it rather than into whatever environment the default
+        # `python -m pip install ...` invocation might happen to choose.
         if [[ -n "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}" ]] ; then
           if [[ -d "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}" ]]; then
             source "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}/bin/activate"
@@ -57,6 +60,8 @@ runs:
 
     - id: pip-audit
       run: |
+        # Similarly to the above: if the user has explicitly specified a virtual
+        # environment, then we have to load it here to get to `pip-audit`.
         if [[ -n "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}" ]] ; then
           if [[ -d "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}" ]]; then
             source "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}/bin/activate"
