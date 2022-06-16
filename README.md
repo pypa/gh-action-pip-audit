@@ -13,6 +13,8 @@ to scan Python dependencies for known vulnerabilities.
 * [Configuration](#configuration)
   * [⚠️ Internal options ⚠️](#internal-options)
 * [Troubleshooting](#troubleshooting)
+* [Licensing](#licensing)
+* [Code of Conduct](#code-of-conduct)
 
 ## Usage
 
@@ -299,3 +301,12 @@ in the virtual environment should be included:
     virtual-environment: env/
     local: true
 ```
+
+## Licensing
+
+`gh-action-pip-audit` is licensed under the Apache 2.0 License.
+
+## Code of Conduct
+
+Everyone interacting with this project is expected to follow the
+[PSF Code of Conduct](https://github.com/pypa/.github/blob/main/CODE_OF_CONDUCT.md).
