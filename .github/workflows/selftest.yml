@@ -79,7 +79,7 @@ jobs:
         id: pip-audit
         with:
           # should attempt to discover test/pyproject/pyproject.toml
-          inputs: test/pyproject/
+          inputs: test/pyproject/ --test
           # NOTE: We intentionally allow failure here, since the self-test
           # explicitly uses a vulnerable requirements file.
           internal-be-careful-allow-failure: true
