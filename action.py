@@ -11,9 +11,13 @@ import sys
 from base64 import b64encode
 from pathlib import Path
 
+_OUTPUTS = [sys.stderr]
 _SUMMARY = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
 _RENDER_SUMMARY = os.getenv("GHA_PIP_AUDIT_SUMMARY", "true") == "true"
 _DEBUG = os.getenv("GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_DEBUG", "false") != "false"
+
+if _RENDER_SUMMARY:
+    _OUTPUTS.append(_SUMMARY)
 
 
 def _summary(msg):
@@ -27,9 +31,8 @@ def _debug(msg):
 
 
 def _log(msg):
-    print(f"::notice::{msg}")
-    if _RENDER_SUMMARY:
-        print(msg, file=_SUMMARY)
+    for output in _OUTPUTS:
+        print(msg, file=output)
 
 
 def _pip_audit(*args):
