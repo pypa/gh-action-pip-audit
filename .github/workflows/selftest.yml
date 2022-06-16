@@ -46,6 +46,9 @@ jobs:
           grep -E 'pyyaml\s+5.1' <<< $(base64 -d <<< "${PIP_AUDIT_OUTPUT}")
 
   selftest-virtualenv:
+    strategy:
+      matrix:
+        local: [true, false]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -58,6 +61,7 @@ jobs:
         id: pip-audit
         with:
           virtual-environment: env/
+          local: ${{ matrix.local }}
           # NOTE: We intentionally allow failure here, since the self-test
           # explicitly uses a vulnerable requirements file.
           internal-be-careful-allow-failure: true
