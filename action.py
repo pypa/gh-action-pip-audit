@@ -40,8 +40,7 @@ def _pip_audit(*args):
 
 
 def _fatal_help(msg):
-    print(f"❌ {msg}", file=sys.stderr)
-    subprocess.run(_pip_audit("--help"))
+    print(f"::error::❌ {msg}")
     sys.exit(1)
 
 
