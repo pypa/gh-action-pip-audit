@@ -77,20 +77,20 @@ pip_audit_args.extend(
     ]
 )
 
-virtual_environment = os.getenv("GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT", "")
-path = os.getenv("PATH")
-if virtual_environment != "":
-    if inputs:
-        _fatal_help("virtual environment may not be specified with explicit inputs")
+# virtual_environment = os.getenv("GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT", "")
+# path = os.getenv("PATH")
+# if virtual_environment != "":
+#     if inputs:
+#         _fatal_help("virtual environment may not be specified with explicit inputs")
 
-    virtual_environment = Path(virtual_environment).resolve()
+#     virtual_environment = Path(virtual_environment).resolve()
 
-    if not virtual_environment.is_dir():
-        _fatal_help("virtual environment does not exist")
+#     if not virtual_environment.is_dir():
+#         _fatal_help("virtual environment does not exist")
 
-    _debug(f"virtual environment requested: {virtual_environment}")
-    path = f"{virtual_environment}/bin:{path}"
-    _debug(f"updated PATH: {path}")
+#     _debug(f"virtual environment requested: {virtual_environment}")
+#     path = f"{virtual_environment}/bin:{path}"
+#     _debug(f"updated PATH: {path}")
 
 # If inputs is empty, we let `pip-audit` run in "pip source" mode by not
 # adding any explicit input argument(s).
@@ -118,7 +118,7 @@ status = subprocess.run(
     text=True,
     stdout=subprocess.PIPE,
     stderr=subprocess.STDOUT,
-    env={**os.environ, "PIP_NO_CACHE_DIR": "1", "PATH": path},
+    env={**os.environ, "PIP_NO_CACHE_DIR": "1"},
 )
 
 _debug(status.stdout)

@@ -45,7 +45,16 @@ runs:
       shell: bash
 
     - id: pip-audit
-      run: ${{ github.action_path }}/action.py "${{ inputs.inputs }}"
+      run: |
+        if [[ -n "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}" ]] ; then
+          if [[ -d "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}" ]]; then
+            source "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}/bin/activate"
+          else
+            >&2 echo "Fatal: virtual environment is not a directory"
+          fi
+        fi
+
+        ${{ github.action_path }}/action.py "${{ inputs.inputs }}"
       env:
         GHA_PIP_AUDIT_SUMMARY: "${{ inputs.summary }}"
         GHA_PIP_AUDIT_NO_DEPS: "${{ inputs.no-deps }}"
