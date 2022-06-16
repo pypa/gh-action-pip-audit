@@ -249,8 +249,8 @@ This section is still a work in progress. Please help us improve it!
 
 ### The action takes longer than I expect!
 
-If you're auditing a requirements file or project directory (`pyproject.toml`),
-consider setting `no-deps: true` or `require-hashes: true` (requirements only):
+If you're auditing a requirements file, consider setting `no-deps: true` or
+`require-hashes: true`:
 
 ```yaml
 - uses: trailofbits/gh-action-pip-audit@v0.0.2
@@ -264,7 +264,7 @@ or:
 ```yaml
 - uses: trailofbits/gh-action-pip-audit@v0.0.2
   with:
-    inputs: some-package/
+    inputs: requirements.txt
     no-deps: true
 ```
 
