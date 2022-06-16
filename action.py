@@ -26,7 +26,8 @@ def _summary(msg):
 
 
 def _debug(msg):
-    print(f"\033[93mDEBUG: {msg}\033[0m", file=sys.stderr)
+    if _DEBUG:
+        print(f"\033[93mDEBUG: {msg}\033[0m", file=sys.stderr)
 
 
 def _log(msg):
