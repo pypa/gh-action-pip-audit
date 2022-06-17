@@ -21,7 +21,7 @@ source "${GITHUB_ACTION_PATH}/setup/venv.bash"
 # error message.
 vers=$(python -V | cut -d ' ' -f2)
 maj_vers=$(cut -d '.' -f1 <<< "${vers}")
-min_vers=$(cut -d '.' -f1 <<< "${vers}")
+min_vers=$(cut -d '.' -f2 <<< "${vers}")
 
 [[ "${maj_vers}" == "3" && "${min_vers}" -ge 7 ]] || die "Bad Python version: ${vers}"
 
