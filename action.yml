@@ -45,34 +45,19 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Set up pip-audit
     - run: |
-        # If the user has explicitly specified a virtual environment, then we install
-        # `pip-audit` into it rather than into whatever environment the default
-        # `python -m pip install ...` invocation might happen to choose.
-        if [[ -n "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}" ]] ; then
-          if [[ -d "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}" ]]; then
-            source "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}/bin/activate"
-          else
-            >&2 echo "Fatal: virtual environment is not a directory"
-          fi
-        fi
-
-        python -m pip install --requirement ${{ github.action_path }}/requirements.txt
+        # NOTE: Sourced, not executed as a script.
+        source "${{ github.action_path }}/setup/setup.bash"
       env:
         GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT: "${{ inputs.virtual-environment }}"
       shell: bash
 
+    - name: Run pip-audit
     - id: pip-audit
       run: |
-        # Similarly to the above: if the user has explicitly specified a virtual
-        # environment, then we have to load it here to get to `pip-audit`.
-        if [[ -n "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}" ]] ; then
-          if [[ -d "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}" ]]; then
-            source "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}/bin/activate"
-          else
-            >&2 echo "Fatal: virtual environment is not a directory"
-          fi
-        fi
+        # NOTE: Sourced, not executed as a script.
+        source "${{ github.action_path }}/setup/venv.bash"
 
         ${{ github.action_path }}/action.py "${{ inputs.inputs }}"
       env:
