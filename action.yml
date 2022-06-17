@@ -46,7 +46,7 @@ runs:
   using: "composite"
   steps:
     - name: Set up pip-audit
-    - run: |
+      run: |
         # NOTE: Sourced, not executed as a script.
         source "${{ github.action_path }}/setup/setup.bash"
       env:
@@ -54,7 +54,7 @@ runs:
       shell: bash
 
     - name: Run pip-audit
-    - id: pip-audit
+      id: pip-audit
       run: |
         # NOTE: Sourced, not executed as a script.
         source "${{ github.action_path }}/setup/venv.bash"
