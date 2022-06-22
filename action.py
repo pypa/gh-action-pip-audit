@@ -72,6 +72,15 @@ if os.getenv("GHA_PIP_AUDIT_REQUIRE_HASHES", "false") != "false":
 if os.getenv("GHA_PIP_AUDIT_LOCAL", "false") != "false":
     pip_audit_args.append("--local")
 
+index_url = os.getenv("GHA_PIP_AUDIT_INDEX_URL")
+if index_url != "":
+    pip_audit_args.extend(["--index-url", index_url])
+
+
+extra_index_urls = os.getenv("GHA_PIP_AUDIT_EXTRA_INDEX_URLS", "").split()
+if len(extra_index_urls) > 0:
+    for url in extra_index_urls:
+        pip_audit_args.extend(["--extra-index-url", url])
 
 pip_audit_args.extend(
     [

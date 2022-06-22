@@ -30,6 +30,14 @@ inputs:
     description: "for environmental audits, consider only packages marked local (default false)"
     required: false
     default: false
+  index-url:
+    description: "the base URL for the PEP 503-compatible package index to use"
+    required: false
+    default: ""
+  extra-index-urls:
+    description: "extra PEP 503-compatible indexes to use, space separated"
+    required: false
+    default: ""
   internal-be-careful-allow-failure:
     description: "don't fail the job if the audit fails (default false)"
     required: false
@@ -67,6 +75,8 @@ runs:
         GHA_PIP_AUDIT_VULNERABILITY_SERVICE: "${{ inputs.vulnerability-service }}"
         GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT: "${{ inputs.virtual-environment }}"
         GHA_PIP_AUDIT_LOCAL: "${{ inputs.local }}"
+        GHA_PIP_AUDIT_INDEX_URL: "${{ inputs.index-url }}"
+        GHA_PIP_AUDIT_EXTRA_INDEX_URLS: "${{ inputs.extra-index-urls }}"
         GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_ALLOW_FAILURE: "${{ inputs.internal-be-careful-allow-failure }}"
         GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_DEBUG: "${{ inputs.internal-be-careful-debug }}"
       shell: bash
