@@ -78,9 +78,13 @@ if index_url != "":
 
 
 extra_index_urls = os.getenv("GHA_PIP_AUDIT_EXTRA_INDEX_URLS", "").split()
-if len(extra_index_urls) > 0:
-    for url in extra_index_urls:
-        pip_audit_args.extend(["--extra-index-url", url])
+for url in extra_index_urls:
+    pip_audit_args.extend(["--extra-index-url", url])
+
+
+ignored_vuln_ids = os.getenv("GHA_PIP_AUDIT_IGNORE_VULNS", "").split()
+for vuln_id in ignored_vuln_ids:
+    pip_audit_args.extend(["--ignore-vuln", vuln_id])
 
 pip_audit_args.extend(
     [
