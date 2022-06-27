@@ -219,9 +219,8 @@ Example:
 
 **Default**: Empty (no extra indexes are searched by default)
 
-The `extra-index-urls` specifies one or more *extra* PEP 503-compatible packages
+The `extra-index-urls` setting specifies one or more *extra* PEP 503-compatible packages
 indexes to search when resolving dependencies. Each URL is whitespace-separated.
-
 
 Example:
 
@@ -231,6 +230,23 @@ Example:
     extra-index-urls: |
       https://example.corporate.local/simple
       https://prod.corporate.local/simple
+```
+
+### `ignore-vulns`
+
+**Default**: Empty (no vulnerabilities are ignored)
+
+The `ignore-vulns` setting specifies one or more vulnerability IDs to
+ignore (i.e., exclude from the results) if present. Each ID is whitespace-separated.
+
+Example
+
+```yaml
+- uses: trailofbits/gh-action-pip-audit@v0.0.4
+  with:
+    ignore-vulns: |
+      GHSA-XXXX-YYYYYY
+      PYSEC-AAAA-BBBBB
 ```
 
 ### Internal options
