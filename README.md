@@ -196,6 +196,43 @@ Example:
     summary: false
   ```
 
+### `index-url`
+
+**Default**: Empty, indicating [PyPI](https://pypi.org)
+
+The `index-url` setting specifies a base URL for an alternative PEP 503-compatible
+package index.
+
+**This is probably not want you want.** If your goal is to add *complementary*
+indices to search (such as a corporate index with private packages), see
+[`extra-index-urls`](#extra-index-urls).
+
+Example:
+
+```yaml
+- uses: trailofbits/gh-action-pip-audit@v0.0.4
+  with:
+    index-url: https://example.corporate.local/simple
+```
+
+### `extra-index-urls`
+
+**Default**: Empty (no extra indexes are searched by default)
+
+The `extra-index-urls` specifies one or more *extra* PEP 503-compatible packages
+indexes to search when resolving dependencies. Each URL is whitespace-separated.
+
+
+Example:
+
+```yaml
+- uses: trailofbits/gh-action-pip-audit@v0.0.4
+  with:
+    extra-index-urls: |
+      https://example.corporate.local/simple
+      https://prod.corporate.local/simple
+```
+
 ### Internal options
 <details>
   <summary>⚠️ Internal options ⚠️</summary>
