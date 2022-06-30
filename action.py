@@ -51,6 +51,8 @@ summary = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
 pip_audit_args = [
     # The spinner is useless in the CI.
     "--progress-spinner=off",
+    # We intend to emit a Markdown-formatted table.
+    "--format=markdown",
     # `pip cache dir` doesn't work in this container for some reason, and I
     # haven't debugged it yet.
     "--cache-dir=/tmp/pip-audit-cache",
@@ -137,11 +139,7 @@ else:
         # in-channel as a special command on stdout).
         print(f"::set-output name=output::{b64encode(output.encode()).decode()}")
 
-        # NOTE: `pip-audit`'s table format isn't quite Markdown-style.
-        # See: https://github.com/trailofbits/pip-audit/issues/296
-        _summary("```")
         _log(output)
-        _summary("```")
 
 
 _summary(
