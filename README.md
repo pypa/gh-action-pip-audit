@@ -255,7 +255,7 @@ Example
 
   Everything below is considered "internal," which means that it
   isn't part of the stable public settings and may be removed or changed at
-  any points. **You probably do not need these settings.**
+  any point. **You probably do not need these settings.**
 
   All internal options are prefixed with `internal-be-careful-`.
 
