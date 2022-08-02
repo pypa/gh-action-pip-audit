@@ -6,10 +6,14 @@
 # is a whitespace-separated list of inputs
 
 import os
+import string
 import subprocess
 import sys
 from base64 import b64encode
 from pathlib import Path
+
+_HERE = Path(__file__).parent.resolve()
+_TEMPLATES = _HERE / "templates"
 
 _OUTPUTS = [sys.stderr]
 _SUMMARY = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
@@ -18,6 +22,11 @@ _DEBUG = os.getenv("GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_DEBUG", "false") != "false
 
 if _RENDER_SUMMARY:
     _OUTPUTS.append(_SUMMARY)
+
+
+def _template(name):
+    path = _TEMPLATES / f"{name}.md"
+    return string.Template(path.read_text())
 
 
 def _summary(msg):
@@ -127,9 +136,9 @@ status = subprocess.run(
 _debug(status.stdout)
 
 if status.returncode == 0:
-    _log("🎉 pip-audit exited successfully")
+    _summary("🎉 pip-audit exited successfully")
 else:
-    _log("❌ pip-audit found one or more problems")
+    _summary("❌ pip-audit found one or more problems")
 
     with open("/tmp/pip-audit-output.txt", "r") as io:
         output = io.read()
@@ -142,23 +151,8 @@ else:
         _log(output)
 
 
-_summary(
-    """
-<details>
-<summary>
-    Raw `pip-audit` output
-</summary>
-
-```
-    """
-)
 _log(status.stdout)
-_summary(
-    """
-```
-</details>
-    """
-)
+_summary(_template("pip-audit").substitute(output=status.stdout))
 
 # Normally, we exit with the same code as `pip-audit`, but the user can
 # explicitly configure the CI to always pass.
