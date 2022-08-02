@@ -144,6 +144,7 @@ else:
         print(f"::set-output name=output::{b64encode(output.encode()).decode()}")
 
         _log(output)
+        _summary(output)
 
 
 _log(status.stdout)
