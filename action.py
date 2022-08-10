@@ -49,7 +49,6 @@ def _fatal_help(msg):
 
 
 inputs = [Path(p).resolve() for p in sys.argv[1].split()]
-summary = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
 
 # The arguments we pass into `pip-audit` get built up in this list.
 pip_audit_args = [
