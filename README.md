@@ -7,6 +7,9 @@ gh-action-pip-audit
 A GitHub Action that uses [`pip-audit`](https://github.com/pypa/pip-audit)
 to scan Python dependencies for known vulnerabilities.
 
+This project is maintained in part by [Trail of Bits](https://www.trailofbits.com/)
+with support from Google. This is not an official Google or Trail of Bits product.
+
 ## Index
 
 * [Usage](#usage)
