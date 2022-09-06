@@ -16,6 +16,7 @@ with support from Google. This is not an official Google or Trail of Bits produc
 * [Configuration](#configuration)
   * [⚠️ Internal options ⚠️](#internal-options)
 * [Troubleshooting](#troubleshooting)
+* [Tips and Tricks](#tips-and-tricks)
 * [Licensing](#licensing)
 * [Code of Conduct](#code-of-conduct)
 
@@ -356,6 +357,34 @@ in the virtual environment should be included:
     # must be populated earlier in the CI
     virtual-environment: env/
     local: true
+```
+
+## Tips and Tricks
+
+### Running against a pipenv project
+
+If you are adding `pip-audit` to a pipenv based project, you'll first need
+to convert the `Pipfile[.lock]` to a `requirements.txt` file that `pip-audit`
+can ingest. Use a Python tool, such as
+[`pipfile-requirements`](https://github.com/frostming/pipfile-requirements), to
+convert your `Pipfile[.lock]` to a `requirements.txt` file and then run
+`pip-audit` GitHub Action against the generated requirements file.
+
+```yaml
+jobs:
+  pip-audit:
+    steps:
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9  # change to your required version of Python
+
+      - name: 'Generate requirements.txt'
+        run: |
+          pipx run pipfile-requirements Pipfile.lock > requirements.txt
+
+      - uses: pypa/gh-action-pip-audit@v1.0.0
+        with:
+          inputs: requirements.txt
 ```
 
 ## Licensing
