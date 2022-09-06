@@ -364,11 +364,11 @@ in the virtual environment should be included:
 ### Running against a pipenv project
 
 If you are adding `pip-audit` to a pipenv based project, you'll first need
-to convert the `Pipfile[.lock]` to a `requirements.txt` file that pip-audit
+to convert the `Pipfile[.lock]` to a `requirements.txt` file that `pip-audit`
 can ingest. Use a Python tool, such as
 [`pipfile-requirements`](https://github.com/frostming/pipfile-requirements), to
 convert your `Pipfile[.lock]` to a `requirements.txt` file and then run
-`pip-audit` GitHub ACtion against the generated requirements file.
+`pip-audit` GitHub Action against the generated requirements file.
 
 ```yaml
 jobs:
