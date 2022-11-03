@@ -15,7 +15,8 @@ from pathlib import Path
 _HERE = Path(__file__).parent.resolve()
 _TEMPLATES = _HERE / "templates"
 
-_SUMMARY = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
+_GITHUB_STEP_SUMMARY = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
+_GITHUB_OUTPUT = Path(os.getenv("GITHUB_OUTPUT")).open("a")
 _RENDER_SUMMARY = os.getenv("GHA_PIP_AUDIT_SUMMARY", "true") == "true"
 _DEBUG = os.getenv("GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_DEBUG", "false") != "false"
 
@@ -27,7 +28,7 @@ def _template(name):
 
 def _summary(msg):
     if _RENDER_SUMMARY:
-        print(msg, file=_SUMMARY)
+        print(msg, file=_GITHUB_STEP_SUMMARY)
 
 
 def _debug(msg):
@@ -138,9 +139,8 @@ else:
         output = io.read()
 
         # This is really nasty: our output contains multiple lines,
-        # so we can't naively stuff it into an output (since this is all done
-        # in-channel as a special command on stdout).
-        print(f"::set-output name=output::{b64encode(output.encode()).decode()}")
+        # so we can't naively stuff it into an output.
+        print(f"output={b64encode(output.encode()).decode()}", file=_GITHUB_OUTPUT)
 
         _log(output)
         _summary(output)
