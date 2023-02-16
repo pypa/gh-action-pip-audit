@@ -135,18 +135,19 @@ if status.returncode == 0:
 else:
     _summary("❌ pip-audit found one or more problems")
 
+    output = "⚠️ pip-audit did not return any output"
     try:
-        with open("/tmp/pip-audit-output.txt") as io:
+        with open("/tmp/pip-audit-output.txt", "r") as io:
             output = io.read()
-
-            # This is really nasty: our output contains multiple lines,
-            # so we can't naively stuff it into an output.
-            print(f"output={b64encode(output.encode()).decode()}", file=_GITHUB_OUTPUT)
-
-            _log(output)
-            _summary(output)
     except OSError as ex:
         _log(ex)
+
+    # This is really nasty: our output contains multiple lines,
+    # so we can't naively stuff it into an output.
+    print(f"output={b64encode(output.encode()).decode()}", file=_GITHUB_OUTPUT)
+
+    _log(output)
+    _summary(output)
 
 
 _log(status.stdout)
