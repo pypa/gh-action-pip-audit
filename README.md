@@ -300,6 +300,20 @@ Example
       internal-be-careful-debug: true
   ```
 
+#### `internal-be-careful-extra-flags`
+**Default**: `""`
+
+The `internal-be-careful-extra-flags` setting passes the specified flags
+to `pip-audit`.
+
+Example:
+
+```yaml
+- uses: pypa/gh-action-pip-audit@v1.0.5
+  with:
+    internal-be-careful-extra-flags: --not-a-real-pip-audit-flag
+```
+
 </details>
 
 ## Troubleshooting
