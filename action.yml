@@ -84,5 +84,4 @@ runs:
         GHA_PIP_AUDIT_IGNORE_VULNS: "${{ inputs.ignore-vulns }}"
         GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_ALLOW_FAILURE: "${{ inputs.internal-be-careful-allow-failure }}"
         GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_EXTRA_FLAGS: "${{ inputs.internal-be-careful-extra-flags }}"
-        ACTIONS_STEP_DEBUG: "${{ secrets.ACTIONS_STEP_DEBUG }}"
       shell: bash
