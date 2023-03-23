@@ -18,7 +18,7 @@ _TEMPLATES = _HERE / "templates"
 _GITHUB_STEP_SUMMARY = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
 _GITHUB_OUTPUT = Path(os.getenv("GITHUB_OUTPUT")).open("a")
 _RENDER_SUMMARY = os.getenv("GHA_PIP_AUDIT_SUMMARY", "true") == "true"
-_DEBUG = str(os.getenv("RUNNER_DEBUG", "false")) != "false"
+_DEBUG = os.getenv("RUNNER_DEBUG") is not None
 
 
 def _template(name):
