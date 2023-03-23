@@ -281,25 +281,6 @@ Example
       internal-be-careful-allow-failure: true
   ```
 
-  #### `internal-be-careful-debug`
-
-  **Default**: `false`
-
-  The `internal-be-careful-debug` setting enables additional debug logs,
-  both within `pip-audit` itself and the action's harness code. You can
-  use it to debug troublesome configurations.
-
-  Be mindful that `pip-audit`'s own debug logs contain HTTP requests,
-  which may or may not be sensitive in your use case.
-
-  Example:
-
-  ```yaml
-  - uses: pypa/gh-action-pip-audit@v1.0.6
-    with:
-      internal-be-careful-debug: true
-  ```
-
 #### `internal-be-careful-extra-flags`
 **Default**: `""`
 
@@ -372,6 +353,12 @@ in the virtual environment should be included:
     virtual-environment: env/
     local: true
 ```
+
+### There's an issue with the action and I want to enable debug logging!
+
+The action prints debug information when the `ACTIONS_STEP_DEBUG` secret is set
+to `true``. You should be able to enable this behavior by
+[following these instructions](https://docs.github.com/en/actions/managing-workflow-runs/re-running-workflows-and-jobs#re-running-all-the-jobs-in-a-workflow).
 
 ## Tips and Tricks
 
