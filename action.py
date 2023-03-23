@@ -18,7 +18,7 @@ _TEMPLATES = _HERE / "templates"
 _GITHUB_STEP_SUMMARY = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
 _GITHUB_OUTPUT = Path(os.getenv("GITHUB_OUTPUT")).open("a")
 _RENDER_SUMMARY = os.getenv("GHA_PIP_AUDIT_SUMMARY", "true") == "true"
-_DEBUG = str(os.getenv("GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_DEBUG", "false")) != "false"
+_DEBUG = os.getenv("RUNNER_DEBUG") is not None
 
 
 def _template(name):
@@ -33,7 +33,7 @@ def _summary(msg):
 
 def _debug(msg):
     if _DEBUG:
-        print(f"\033[93mDEBUG: {msg}\033[0m", file=sys.stderr)
+        print(f"::debug::{msg}")
 
 
 def _log(msg):
