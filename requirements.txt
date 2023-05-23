@@ -1,4 +1,1 @@
-pip-audit ~= 2.0, >= 2.4.13
-
-# See: https://github.com/psf/requests/issues/6437
-requests < 2.30
+pip-audit ~= 2.0, >= 2.5.6
