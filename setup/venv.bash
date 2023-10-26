@@ -17,7 +17,12 @@ fi
 # `python -m pip install ...` invocation might happen to choose.
 if [[ -n "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}" ]] ; then
   if [[ -d "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}" ]]; then
-    source "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}/bin/activate"
+    if [[ "$OSTYPE" == "msys" || "$(uname)" == MSYS_NT* || "$(uname)" == MINGW* ]]; then
+      # execute in windows
+      source "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}/scripts/activate"
+    else
+      source "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}/bin/activate"
+    fi
   else
     die "Fatal: virtual environment is not a directory"
   fi

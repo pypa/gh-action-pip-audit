@@ -71,7 +71,11 @@ runs:
         # NOTE: Sourced, not executed as a script.
         source "${{ github.action_path }}/setup/venv.bash"
 
-        ${{ github.action_path }}/action.py "${{ inputs.inputs }}"
+        if [[ "${{runner.os}}" == "Windows" ]]; then
+          python "${{ github.action_path }}/action.py" "${{ inputs.inputs }}"
+        else
+          ${{ github.action_path }}/action.py "${{ inputs.inputs }}"
+        fi
       env:
         GHA_PIP_AUDIT_SUMMARY: "${{ inputs.summary }}"
         GHA_PIP_AUDIT_NO_DEPS: "${{ inputs.no-deps }}"

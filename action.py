@@ -45,7 +45,8 @@ def _pip_audit(*args):
 
 
 def _fatal_help(msg):
-    print(f"::error::❌ {msg}")
+    msg = f"::error::❌ {msg}"
+    print(sys.stdout.buffer.write(msg.encode("utf-8")))
     sys.exit(1)
 
 
@@ -131,9 +132,11 @@ status = subprocess.run(
 _debug(status.stdout)
 
 if status.returncode == 0:
-    _summary("🎉 pip-audit exited successfully")
+    msg = "🎉 pip-audit exited successfully"
+    _summary(sys.stdout.buffer.write(msg.encode("utf-8")))
 else:
-    _summary("❌ pip-audit found one or more problems")
+    msg = "❌ pip-audit found one or more problems"
+    _summary(sys.stdout.buffer.write(msg.encode("utf-8")))
 
     output = "⚠️ pip-audit did not return any output"
     try:
