@@ -17,7 +17,7 @@ fi
 # `python -m pip install ...` invocation might happen to choose.
 if [[ -n "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}" ]] ; then
   if [[ -d "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}" ]]; then
-    if [[ "$OSTYPE" == "msys" || "$(uname)" == MSYS_NT* || "$(uname)" == MINGW* ]]; then
+    if [[ "$(uname)" == MSYS_NT* || "$(uname)" == MINGW* ]]; then
       # execute in windows
       source "${GHA_PIP_AUDIT_VIRTUAL_ENVIRONMENT}/scripts/activate"
     else

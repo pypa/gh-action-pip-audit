@@ -12,11 +12,15 @@ import sys
 from base64 import b64encode
 from pathlib import Path
 
+sys.stdout.reconfigure(encoding="utf-8")
+
 _HERE = Path(__file__).parent.resolve()
 _TEMPLATES = _HERE / "templates"
 
-_GITHUB_STEP_SUMMARY = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
-_GITHUB_OUTPUT = Path(os.getenv("GITHUB_OUTPUT")).open("a")
+_GITHUB_STEP_SUMMARY = Path(os.getenv("GITHUB_STEP_SUMMARY")).open(
+    "a", encoding="utf-8"
+)
+_GITHUB_OUTPUT = Path(os.getenv("GITHUB_OUTPUT")).open("a", encoding="utf-8")
 _RENDER_SUMMARY = os.getenv("GHA_PIP_AUDIT_SUMMARY", "true") == "true"
 _DEBUG = os.getenv("RUNNER_DEBUG") is not None
 
@@ -45,8 +49,7 @@ def _pip_audit(*args):
 
 
 def _fatal_help(msg):
-    msg = f"::error::❌ {msg}"
-    print(sys.stdout.buffer.write(msg.encode("utf-8")))
+    print(f"::error::❌ {msg}")
     sys.exit(1)
 
 
@@ -132,11 +135,9 @@ status = subprocess.run(
 _debug(status.stdout)
 
 if status.returncode == 0:
-    msg = "🎉 pip-audit exited successfully"
-    _summary(sys.stdout.buffer.write(msg.encode("utf-8")))
+    _summary("🎉 pip-audit exited successfully")
 else:
-    msg = "❌ pip-audit found one or more problems"
-    _summary(sys.stdout.buffer.write(msg.encode("utf-8")))
+    _summary("❌ pip-audit found one or more problems")
 
     output = "⚠️ pip-audit did not return any output"
     try:
