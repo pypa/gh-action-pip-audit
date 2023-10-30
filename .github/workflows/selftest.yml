@@ -24,6 +24,7 @@ jobs:
           # explicitly uses a vulnerable requirements file.
           internal-be-careful-allow-failure: true
       - name: assert expected output
+        shell: bash
         env:
           PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.internal-be-careful-output }}"
         run: |
