@@ -110,3 +110,22 @@ jobs:
           PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.internal-be-careful-output }}"
         run: |
           grep 'pip-audit did not return any output' <<< $(base64 -d <<< "${PIP_AUDIT_OUTPUT}")
+
+  all-selftests-pass:
+    if: always()
+
+    needs:
+      - selftest-requirements
+      - selftest-environment
+      - selftest-virtualenv
+      - selftest-pyproject
+      - selftest-pipaudit-fail
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: check test jobs
+        if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
+        uses: re-actors/alls-green@05ac9388f0aebcb5727afa17fcccfecd6f8ec5fe # v1.2.2
+        with:
+          jobs: ${{ toJSON(needs) }}
