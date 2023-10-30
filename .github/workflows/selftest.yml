@@ -9,7 +9,10 @@ on:
 
 jobs:
   selftest-requirements:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./
@@ -88,6 +91,7 @@ jobs:
           PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.internal-be-careful-output }}"
         run: |
           grep -E 'pyyaml\s+\|\s+5.1' <<< $(base64 -d <<< "${PIP_AUDIT_OUTPUT}")
+
   selftest-pipaudit-fail:
     runs-on: ubuntu-latest
     steps:
