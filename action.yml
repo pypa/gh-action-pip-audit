@@ -54,6 +54,9 @@ outputs:
   internal-be-careful-output:
     description: "the column-formatted output from pip-audit, wrapped as base64"
     value: "${{ steps.pip-audit.outputs.output }}"
+  summary-raw:
+    description: "the raw summary output from pip-audit, passed to the Job Summaries page"
+    value: "${{ steps.pip-audit.outputs.summary-raw }}"
 runs:
   using: "composite"
   steps:
@@ -72,6 +75,8 @@ runs:
         source "${{ github.action_path }}/setup/venv.bash"
 
         python "${{ github.action_path }}/action.py" "${{ inputs.inputs }}"
+
+        echo "summary-raw=$(cat $GITHUB_STEP_SUMMARY)" >> $GITHUB_ENV
       env:
         GHA_PIP_AUDIT_SUMMARY: "${{ inputs.summary }}"
         GHA_PIP_AUDIT_NO_DEPS: "${{ inputs.no-deps }}"
