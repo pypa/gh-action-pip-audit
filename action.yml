@@ -77,7 +77,7 @@ runs:
         python "${{ github.action_path }}/action.py" "${{ inputs.inputs }}"
 
         if [[ "${GHA_PIP_AUDIT_SUMMARY}" = "true" ]]; then
-          echo "markdown-summary=$(<${GITHUB_STEP_SUMMARY})" >> ${GITHUB_ENV}
+          echo "markdown-summary=$(<${GITHUB_STEP_SUMMARY})" >> ${GITHUB_OUTPUT}
         fi
       env:
         GHA_PIP_AUDIT_SUMMARY: "${{ inputs.summary }}"
