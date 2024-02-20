@@ -23,8 +23,10 @@ jobs:
       - name: assert expected output
         env:
           PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.internal-be-careful-output }}"
+          MARKDOWN_SUMMARY_OUTPUT: "${{ steps.pip-audit.outputs.makrdown-summary }}"
         run: |
           grep -E 'pyyaml\s+\|\s+5.1' <<< $(base64 -d <<< "${PIP_AUDIT_OUTPUT}")
+          grep 'pip-audit found one or more problems' <<< $(base64 -d <<< "${MARKDOWN_SUMMARY_OUTPUT}")
 
   selftest-environment:
     runs-on: ubuntu-latest
@@ -88,6 +90,7 @@ jobs:
           PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.internal-be-careful-output }}"
         run: |
           grep -E 'pyyaml\s+\|\s+5.1' <<< $(base64 -d <<< "${PIP_AUDIT_OUTPUT}")
+
   selftest-pipaudit-fail:
     runs-on: ubuntu-latest
     steps:
