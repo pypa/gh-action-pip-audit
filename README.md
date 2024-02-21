@@ -192,6 +192,8 @@ The `summary` setting controls whether a GitHub
 [job summary](https://github.blog/2022-05-09-supercharging-github-actions-with-job-summaries/)
 is rendered at the end of the action.
 
+__Note:__ The markdown-formatted summary is base64 wrapped and output to the variable `summary-output-base64` when job summaries are enabled.
+
 Example:
 
 ```yaml

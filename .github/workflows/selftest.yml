@@ -22,7 +22,7 @@ jobs:
           internal-be-careful-allow-failure: true
       - name: assert expected output
         env:
-          PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.internal-be-careful-output }}"
+          PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.summary-output-base64 }}"
         run: |
           grep -E 'pyyaml\s+\|\s+5.1' <<< $(base64 -d <<< "${PIP_AUDIT_OUTPUT}")
 
@@ -41,7 +41,7 @@ jobs:
           internal-be-careful-allow-failure: true
       - name: assert expected output
         env:
-          PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.internal-be-careful-output }}"
+          PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.summary-output-base64 }}"
         run: |
           grep -E 'pyyaml\s+\|\s+5.1' <<< $(base64 -d <<< "${PIP_AUDIT_OUTPUT}")
 
@@ -67,7 +67,7 @@ jobs:
           internal-be-careful-allow-failure: true
       - name: assert expected output
         env:
-          PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.internal-be-careful-output }}"
+          PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.summary-output-base64 }}"
         run: |
           grep -E 'pyyaml\s+\|\s+5.1' <<< $(base64 -d <<< "${PIP_AUDIT_OUTPUT}")
 
@@ -85,9 +85,10 @@ jobs:
           internal-be-careful-allow-failure: true
       - name: assert expected output
         env:
-          PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.internal-be-careful-output }}"
+          PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.summary-output-base64 }}"
         run: |
           grep -E 'pyyaml\s+\|\s+5.1' <<< $(base64 -d <<< "${PIP_AUDIT_OUTPUT}")
+
   selftest-pipaudit-fail:
     runs-on: ubuntu-latest
     steps:
@@ -103,6 +104,6 @@ jobs:
           internal-be-careful-allow-failure: true
       - name: assert expected output
         env:
-          PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.internal-be-careful-output }}"
+          PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.summary-output-base64 }}"
         run: |
           grep 'pip-audit did not return any output' <<< $(base64 -d <<< "${PIP_AUDIT_OUTPUT}")
