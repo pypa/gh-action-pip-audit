@@ -51,12 +51,9 @@ inputs:
     required: false
     default: ""
 outputs:
-  internal-be-careful-output:
+  summary-output-base64:
     description: "the column-formatted output from pip-audit, wrapped as base64"
     value: "${{ steps.pip-audit.outputs.output }}"
-  markdown-summary:
-    description: "the markdown summary output from pip-audit, passed to the Job Summaries page"
-    value: "${{ steps.pip-audit.outputs.markdown-summary }}"
 runs:
   using: "composite"
   steps:
