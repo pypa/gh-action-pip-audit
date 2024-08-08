@@ -7,9 +7,16 @@ on:
   pull_request:
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   selftest-requirements:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./
@@ -21,6 +28,7 @@ jobs:
           # explicitly uses a vulnerable requirements file.
           internal-be-careful-allow-failure: true
       - name: assert expected output
+        shell: bash
         env:
           PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.internal-be-careful-output }}"
         run: |
@@ -88,6 +96,7 @@ jobs:
           PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.internal-be-careful-output }}"
         run: |
           grep -E 'pyyaml\s+\|\s+5.1' <<< $(base64 -d <<< "${PIP_AUDIT_OUTPUT}")
+
   selftest-pipaudit-fail:
     runs-on: ubuntu-latest
     steps:
@@ -106,3 +115,22 @@ jobs:
           PIP_AUDIT_OUTPUT: "${{ steps.pip-audit.outputs.internal-be-careful-output }}"
         run: |
           grep 'pip-audit did not return any output' <<< $(base64 -d <<< "${PIP_AUDIT_OUTPUT}")
+
+  all-selftests-pass:
+    if: always()
+
+    needs:
+      - selftest-requirements
+      - selftest-environment
+      - selftest-virtualenv
+      - selftest-pyproject
+      - selftest-pipaudit-fail
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: check test jobs
+        if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
+        uses: re-actors/alls-green@05ac9388f0aebcb5727afa17fcccfecd6f8ec5fe # v1.2.2
+        with:
+          jobs: ${{ toJSON(needs) }}
