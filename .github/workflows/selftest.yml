@@ -18,7 +18,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./
         id: pip-audit
         with:
@@ -37,7 +37,7 @@ jobs:
   selftest-environment:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: make the environment vulnerable
         run: |
           python -m pip install --no-deps --requirement ./test/vulnerable.txt
@@ -59,7 +59,7 @@ jobs:
         local: [true, false]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: make a virtual environment vulnerable
         run: |
           python -m venv env
@@ -82,7 +82,7 @@ jobs:
   selftest-pyproject:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./
         id: pip-audit
         with:
@@ -100,7 +100,7 @@ jobs:
   selftest-pipaudit-fail:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./
         id: pip-audit
         with:

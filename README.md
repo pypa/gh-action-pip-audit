@@ -29,7 +29,7 @@ jobs:
   selftest:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: install
         run: python -m pip install .
       - uses: pypa/gh-action-pip-audit@v1.1.0
@@ -42,7 +42,7 @@ jobs:
   selftest:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: install
         run: |
           python -m venv env/
