@@ -375,7 +375,7 @@ convert your `Pipfile[.lock]` to a `requirements.txt` file and then run
 jobs:
   pip-audit:
     steps:
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v5
         with:
           python-version: 3.9  # change to your required version of Python
 
