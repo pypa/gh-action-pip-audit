@@ -86,7 +86,7 @@ runs:
         GHA_PIP_AUDIT_INDEX_URL: "${{ inputs.index-url }}"
         GHA_PIP_AUDIT_EXTRA_INDEX_URLS: "${{ inputs.extra-index-urls }}"
         GHA_PIP_AUDIT_IGNORE_VULNS: "${{ inputs.ignore-vulns }}"
-        GHA_PIP_DISABLE_PIP: "{{ inputs.disable-pip }}"
+        GHA_PIP_DISABLE_PIP: "${{ inputs.disable-pip }}"
         GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_ALLOW_FAILURE: "${{ inputs.internal-be-careful-allow-failure }}"
         GHA_PIP_AUDIT_INTERNAL_BE_CAREFUL_EXTRA_FLAGS: "${{ inputs.internal-be-careful-extra-flags }}"
       shell: bash
