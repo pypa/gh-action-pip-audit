@@ -253,6 +253,23 @@ Example
       PYSEC-AAAA-BBBBB
 ```
 
+### `disable-pip`
+
+**Default**: `false`
+
+The `disable-pip` setting disable the use of `pip` for dependency resolution. This can only be used with
+hashed requirements files or if the `no-deps` setting has been provided.
+
+Example
+
+```yaml
+- uses: pypa/gh-action-pip-audit@v1.1.0
+  with:
+    inputs: requirements.lock
+    disable-pip: true
+    no-deps: true
+```
+
 ### Internal options
 <details>
   <summary>⚠️ Internal options ⚠️</summary>
