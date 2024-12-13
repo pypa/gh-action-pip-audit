@@ -55,7 +55,7 @@ inputs:
     required: false
     default: ""
 outputs:
-  internal-be-careful-output:
+  summary-output-base64:
     description: "the column-formatted output from pip-audit, wrapped as base64"
     value: "${{ steps.pip-audit.outputs.output }}"
 runs:
@@ -76,6 +76,10 @@ runs:
         source "${{ github.action_path }}/setup/venv.bash"
 
         python "${{ github.action_path }}/action.py" "${{ inputs.inputs }}"
+
+        if [[ "${GHA_PIP_AUDIT_SUMMARY}" = "true" ]]; then
+          echo "markdown-summary=$(<${GITHUB_STEP_SUMMARY})" >> ${GITHUB_OUTPUT}
+        fi
       env:
         GHA_PIP_AUDIT_SUMMARY: "${{ inputs.summary }}"
         GHA_PIP_AUDIT_NO_DEPS: "${{ inputs.no-deps }}"
