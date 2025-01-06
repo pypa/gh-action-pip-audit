@@ -75,8 +75,9 @@ runs:
         # NOTE: Sourced, not executed as a script.
         source "${{ github.action_path }}/setup/venv.bash"
 
-        python "${{ github.action_path }}/action.py" "${{ inputs.inputs }}"
+        python "${{ github.action_path }}/action.py" "$GHA_PIP_AUDIT_INPUTS"
       env:
+        GHA_PIP_AUDIT_INPUTS: "${{ inputs.inputs }}"
         GHA_PIP_AUDIT_SUMMARY: "${{ inputs.summary }}"
         GHA_PIP_AUDIT_NO_DEPS: "${{ inputs.no-deps }}"
         GHA_PIP_AUDIT_REQUIRE_HASHES: "${{ inputs.require-hashes }}"
