@@ -128,7 +128,7 @@ for input_ in inputs:
         if not input_.is_file():
             _fatal_help(f"input {input_} does not look like a file")
         if locked:
-            _fatal_help(f"locked is only applies to auditing from project paths")
+            _fatal_help("locked only applies to audits of project paths")
         pip_audit_args.extend(["--requirement", input_])
 
 _debug(f"running: pip-audit {[str(a) for a in pip_audit_args]}")
