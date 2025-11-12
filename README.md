@@ -274,7 +274,7 @@ Example
 
 **Default**: `false`
 
-The `locked` setting audit lock files from the local Python project.
+The `locked` setting enables audits of lock files (`pylock.*.toml`) from the local Python project.
 
 Example
 
