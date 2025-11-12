@@ -106,6 +106,10 @@ pip_audit_args.extend(
     ]
 )
 
+locked = os.getenv("GHA_PIP_AUDIT_LOCKED", "false") != "false"
+if locked:
+    pip_audit_args.append("--locked")
+
 # If inputs is empty, we let `pip-audit` run in "`pip list` source" mode by not
 # adding any explicit input argument(s).
 # Otherwise, we handle either exactly one project path (a directory)
@@ -123,6 +127,8 @@ for input_ in inputs:
     else:
         if not input_.is_file():
             _fatal_help(f"input {input_} does not look like a file")
+        if locked:
+            _fatal_help("locked only applies to audits of project paths")
         pip_audit_args.extend(["--requirement", input_])
 
 _debug(f"running: pip-audit {[str(a) for a in pip_audit_args]}")
