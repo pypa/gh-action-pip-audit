@@ -270,6 +270,21 @@ Example
     no-deps: true
 ```
 
+### `locked`
+
+**Default**: `false`
+
+The `locked` setting enables audits of lock files (`pylock.*.toml`) from the local Python project.
+
+Example
+
+```yaml
+- uses: pypa/gh-action-pip-audit@v1.1.0
+  with:
+    inputs: path/to/project/
+    locked: true
+```
+
 ### Internal options
 <details>
   <summary>⚠️ Internal options ⚠️</summary>
